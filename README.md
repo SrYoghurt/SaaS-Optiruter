@@ -1,13 +1,13 @@
-# OptiRuter 🚚📍
+# OptiRuter
 
 > **SaaS B2B de optimización y planificación inteligente de rutas para flotas de última milla.**  
 > *"Menos kilómetros. Más entregas a tiempo."*
 
 ---
 
-## 📌 Resumen Ejecutivo
+## Resumen Ejecutivo
 
-**OptiRuter** es una plataforma SaaS diseñada para empresas de delivery urbano, distribuidoras mayoristas, empresas de servicios técnicos y e-commerce con logística propia. 
+**OptiRuter** es una plataforma SaaS diseñada para empresas de delivery urbano, distribuidoras mayoristas, empresas de servicios técnicos y e-commerce con logística propia.
 
 Permite transformar listas de pedidos dispersos en planes de rutas operativos y eficientes, asignados de forma óptima a vehículos y conductores en cuestión de segundos, respetando restricciones operativas como:
 - Ventanas horarias de entrega.
@@ -19,35 +19,35 @@ Permite transformar listas de pedidos dispersos en planes de rutas operativos y 
 
 ---
 
-## 🎯 El Problema que Resolvemos
+## El Problema que Resolvemos
 
 Las flotas de última milla suelen coordinar su logística mediante planillas de cálculo, grupos de mensajería y mapas estáticos, lo cual genera:
 - **Tiempos excesivos de planificación manual:** horas invertidas por el operador logístico armando secuencias a ojo.
 - **Rutas ineficientes y sobrecostos:** mayor kilometraje recorrido y mayor gasto de combustible.
 - **Incumplimientos de entrega:** pedidos fuera de ventana horaria y clientes insatisfechos.
-- **Rigidez operativa:** imposibilidad de reaccionar rápidamente ante imprevistos (cambios de pedidos, fallas mecánicas).
+- **Rigidez operativa:** dificultad para reaccionar rápidamente ante imprevistos (cambios de pedidos, fallas mecánicas).
 - **Falta de métricas y visibilidad:** sin conocimiento claro de distancias totales, capacidades o pedidos no asignados.
 
-**OptiRuter** automatiza y optimiza esta toma de decisiones con un motor de resolución matemática robusto, ofreciendo visibilidad operativa de extremo a extremo.
+OptiRuter automatiza y optimiza esta toma de decisiones con un motor de resolución matemática robusto, ofreciendo visibilidad operativa de extremo a extremo.
 
 ---
 
-## ✨ Características Principales (MVP Scope)
+## Características Principales (MVP Scope)
 
-- 🏢 **Multi-tenancy y Seguridad:** Aislamiento estricto de datos por organización (`organizationId`), autenticación segura mediante JWT y refresh tokens con control de acceso basado en roles (RBAC).
-- 🚚 **Gestión Integral de Flota:** Administración de vehículos (capacidades de peso/volumen, depósitos de salida y llegada) y conductores (turnos de disponibilidad y asignaciones).
-- 📦 **Gestión y Carga Masiva de Pedidos:** Alta manual o importación masiva vía archivos **CSV** con validación y reporte de errores fila por fila.
-- ⚡ **Motor de Optimización Asíncrono:** Integración con **Google OR-Tools** (FastAPI) para resolver problemas complejos de ruteo de vehículos (VRP/VRPTW). La optimización se encola en segundo plano mediante **Redis + BullMQ**, evitando bloqueos en la API.
-- 🗺️ **Visualización Interactiva en Mapa:** Trazado de recorridos por vehículo, orden secuencial de paradas y panel lateral con información detallada de cada punto.
-- 📊 **KPIs y Métricas de Rendimiento:** Resumen inmediato de kilómetros totales, duración estimada, tasa de pedidos asignados vs. no asignados y porcentaje de utilización de flota.
-- 🔄 **Reoptimización Dinámica:** Capacidad de reajustar planes ante cambios de último momento (ingreso de pedidos prioritarios, bajas de vehículos) manteniendo el historial de versiones.
-- ⏱️ **Actualizaciones en Tiempo Real:** Comunicación bidireccional vía **WebSockets** para reflejar el progreso del plan (`QUEUED` → `OPTIMIZING` → `READY` / `FAILED`) sin recargar la página.
+- **Multi-tenancy y seguridad:** Aislamiento estricto de datos por organización (`organizationId`), autenticación segura mediante JWT y refresh tokens con control de acceso basado en roles (RBAC).
+- **Gestión integral de flota:** Administración de vehículos (capacidades de peso/volumen, depósitos de salida y llegada) y conductores (turnos de disponibilidad y asignaciones).
+- **Gestión y carga masiva de pedidos:** Alta manual o importación masiva vía archivos CSV con validación y reporte de errores fila por fila.
+- **Motor de optimización asíncrono:** Integración con Google OR-Tools (FastAPI) para resolver problemas complejos de ruteo de vehículos (VRP/VRPTW). La optimización se encola en segundo plano mediante Redis + BullMQ, evitando bloqueos en la API.
+- **Visualización interactiva en mapa:** Trazado de recorridos por vehículo, orden secuencial de paradas y panel lateral con información detallada de cada punto.
+- **KPIs y métricas de rendimiento:** Resumen inmediato de kilómetros totales, duración estimada, tasa de pedidos asignados vs. no asignados y porcentaje de utilización de flota.
+- **Reoptimización dinámica:** Capacidad de reajustar planes ante cambios de último momento (ingreso de pedidos prioritarios, bajas de vehículos) manteniendo el historial de versiones.
+- **Actualizaciones en tiempo real:** Comunicación bidireccional vía WebSockets para reflejar el progreso del plan (`QUEUED` → `OPTIMIZING` → `READY` / `FAILED`) sin recargar la página.
 
 ---
 
-## 🏗️ Arquitectura del Sistema
+## Arquitectura del Sistema
 
-La solución está estructurada como un **monorepo modular** que desacopla la API transaccional, el procesamiento asíncrono y el cálculo matemático intensivo:
+La solución está estructurada como un monorepo modular que desacopla la API transaccional, el procesamiento asíncrono y el cálculo matemático intensivo:
 
 ```
 ┌────────────────────────────────────────────────────────┐
@@ -82,14 +82,14 @@ La solución está estructurada como un **monorepo modular** que desacopla la AP
 
 | Aplicación / Paquete | Directorio | Stack Tecnológico | Responsabilidad |
 |---|---|---|---|
-| **Web** | `apps/web` | React 19, TypeScript, Vite | Dashboard de operador, visualización de mapas y landing pública. |
-| **API** | `apps/api` | NestJS 11, Express, Prisma | Autenticación, multi-tenancy, gestión operativa y webhooks/sockets. |
-| **Worker** | `apps/worker` | NestJS 11, BullMQ | Consumidor de colas para importación de CSVs y despacho de optimizaciones. |
-| **Optimizer** | `apps/optimizer` | Python 3.12, FastAPI, Google OR-Tools | Microservicio matemático dedicado a resolver los modelos VRP. |
+| **Web** | [apps/web/](apps/web/) | React 19, TypeScript, Vite | Dashboard de operador, visualización de mapas y landing pública. |
+| **API** | [apps/api/](apps/api/) | NestJS 11, Express, Prisma | Autenticación, multi-tenancy, gestión operativa y webhooks/sockets. |
+| **Worker** | [apps/worker/](apps/worker/) | NestJS 11, BullMQ | Consumidor de colas para importación de CSVs y despacho de optimizaciones. |
+| **Optimizer** | [apps/optimizer/](apps/optimizer/) | Python 3.12, FastAPI, Google OR-Tools | Microservicio matemático dedicado a resolver los modelos VRP. |
 
 ---
 
-## 📂 Estructura del Repositorio
+## Estructura del Repositorio
 
 ```text
 SaaS-Optiruter/
@@ -109,14 +109,14 @@ SaaS-Optiruter/
 
 ---
 
-## 🚀 Puesta en Marcha Local
+## Puesta en Marcha Local
 
 ### Prerrequisitos
 
-- **Node.js** >= 20.x
-- **pnpm** >= 9.x (o compatible con v12+)
-- **Python** >= 3.12 (para el microservicio optimizer)
-- **Docker** y **Docker Compose**
+- Node.js >= 20.x
+- pnpm >= 9.x (o compatible con v12+)
+- Python >= 3.12 (para el microservicio optimizer)
+- Docker y Docker Compose
 
 ### 1. Clonar el repositorio e instalar dependencias
 
@@ -151,7 +151,7 @@ pnpm dev
 
 ---
 
-## 🌐 URLs y Servicios en Desarrollo
+## URLs y Servicios en Desarrollo
 
 | Servicio | URL Local | Descripción |
 |---|---|---|
@@ -163,7 +163,7 @@ pnpm dev
 
 ---
 
-## 🛠️ Scripts Disponibles
+## Scripts Disponibles
 
 En la raíz del proyecto puedes ejecutar:
 
@@ -179,33 +179,35 @@ En la raíz del proyecto puedes ejecutar:
 
 ---
 
-## 📖 Documentación de Producto y Arquitectura
+## Documentación de Producto y Arquitectura
 
-Para profundizar en las decisiones de diseño, contratos y requerimientos, consulta la carpeta `docs/product/`:
+Para consultar en detalle las especificaciones técnicas, decisiones de diseño, modelo de datos y contratos, navega directamente a las carpetas de documentación:
 
-1. [01 - Product Brief](file:///C:/Users/milto/OneDrive/Documentos/Milton/trabajo/SaaS-Optiruter/docs/product/01-product-brief.md): Visión general, propuesta de valor y objetivos de negocio.
-2. [02 - MVP Scope](file:///C:/Users/milto/OneDrive/Documentos/Milton/trabajo/SaaS-Optiruter/docs/product/02-mvp-scope.md): Alcance detallado del MVP, criterios de aceptación y priorización MoSCoW.
-3. [03 - User Stories](file:///C:/Users/milto/OneDrive/Documentos/Milton/trabajo/SaaS-Optiruter/docs/product/03-user-stories.md): Historias de usuario organizadas por épicas funcionales.
-4. [04 - Data Model](file:///C:/Users/milto/OneDrive/Documentos/Milton/trabajo/SaaS-Optiruter/docs/product/04-data-model.md): Entidades del dominio, esquemas relacionales y multi-tenancy.
-5. [05 - API Contract](file:///C:/Users/milto/OneDrive/Documentos/Milton/trabajo/SaaS-Optiruter/docs/product/05-api-contract.md): Especificación REST de endpoints, DTOs y códigos de respuesta.
-6. [06 - Architecture](file:///C:/Users/milto/OneDrive/Documentos/Milton/trabajo/SaaS-Optiruter/docs/product/06-architecture.md): Arquitectura de microservicios, patrón productor-consumidor y ADRs técnicos.
-7. [07 - Roadmap](file:///C:/Users/milto/OneDrive/Documentos/Milton/trabajo/SaaS-Optiruter/docs/product/07-roadmap.md): Fases de desarrollo desde la fundación técnica hasta el lanzamiento del MVP.
-8. [08 - AI Workflow](file:///C:/Users/milto/OneDrive/Documentos/Milton/trabajo/SaaS-Optiruter/docs/product/08-ai-workflow.md): Convenciones y flujo de desarrollo asistido por IA.
-9. [09 - Monorepo Setup](file:///C:/Users/milto/OneDrive/Documentos/Milton/trabajo/SaaS-Optiruter/docs/product/09-monorepo-setup.md): Configuración de Turborepo, pnpm workspaces y Docker Compose.
-
----
-
-## 🗺️ Roadmap de Implementación
-
-- [x] **Fase 0: Discovery y Documentación:** Especificación funcional, técnica y contratos cerrada.
-- [ ] **Fase 1: Fundación Técnica:** Monorepo, pipelines de CI, infraestructura base con Docker.
-- [ ] **Fase 2: Núcleo Operativo:** Autenticación JWT, multi-tenancy, CRUD de flota y carga CSV de pedidos.
-- [ ] **Fase 3: Motor de Optimización:** Conexión BullMQ, worker y resolución VRP con OR-Tools.
-- [ ] **Fase 4: Experiencia de Usuario:** Interfaz interactiva de mapa, KPIs y notificaciones WebSocket.
-- [ ] **Fase 5: Demo y Lanzamiento:** Datos de prueba, métricas operativas y despliegue a producción.
+- **[docs/product/](docs/product/)**: Carpeta principal con toda la documentación funcional, técnica y de arquitectura del proyecto:
+  - `01-product-brief.md`: Resumen ejecutivo, propuesta de valor y objetivos de negocio.
+  - `02-mvp-scope.md`: Alcance detallado del MVP, criterios de aceptación y priorización MoSCoW.
+  - `03-user-stories.md`: Historias de usuario organizadas por épicas funcionales.
+  - `04-data-model.md`: Entidades del dominio, esquemas relacionales y aislamiento multi-tenant.
+  - `05-api-contract.md`: Especificación REST de endpoints, DTOs y códigos de respuesta.
+  - `06-architecture.md`: Arquitectura de microservicios, patrón productor-consumidor y ADRs técnicos.
+  - `07-roadmap.md`: Fases de desarrollo desde la fundación técnica hasta el lanzamiento del MVP.
+  - `08-ai-workflow.md`: Convenciones y flujo de desarrollo asistido por IA.
+  - `09-monorepo-setup.md`: Configuración de Turborepo, pnpm workspaces y Docker Compose.
+- **[docs/](docs/)**: Directorio raíz de documentación del proyecto.
 
 ---
 
-## 📄 Licencia
+## Roadmap de Implementación
 
-Distribuido bajo licencia [ISC](file:///C:/Users/milto/OneDrive/Documentos/Milton/trabajo/SaaS-Optiruter/package.json).
+- [x] Fase 0: Discovery y Documentación: Especificación funcional, técnica y contratos cerrada.
+- [ ] Fase 1: Fundación Técnica: Monorepo, pipelines de CI, infraestructura base con Docker.
+- [ ] Fase 2: Núcleo Operativo: Autenticación JWT, multi-tenancy, CRUD de flota y carga CSV de pedidos.
+- [ ] Fase 3: Motor de Optimización: Conexión BullMQ, worker y resolución VRP con OR-Tools.
+- [ ] Fase 4: Experiencia de Usuario: Interfaz interactiva de mapa, KPIs y notificaciones WebSocket.
+- [ ] Fase 5: Demo y Lanzamiento: Datos de prueba, métricas operativas y despliegue a producción.
+
+---
+
+## Licencia
+
+Distribuido bajo licencia [ISC](package.json).
